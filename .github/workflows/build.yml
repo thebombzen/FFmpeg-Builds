@@ -21,7 +21,7 @@ env:
 jobs:
   build_base:
     name: Build base image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
   build_target_bases:
     name: Build target base image
     needs: build_base
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
@@ -87,7 +87,7 @@ jobs:
   build_targets:
     name: Build target-variant image
     needs: build_target_bases
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
@@ -127,7 +127,7 @@ jobs:
   build_ffmpeg:
     name: Build ffmpeg
     needs: build_targets
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
@@ -155,7 +155,7 @@ jobs:
     name: Publish release
     if: ${{ github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' }}
     needs: build_ffmpeg
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v3
