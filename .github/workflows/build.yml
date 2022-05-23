@@ -10,10 +10,8 @@ on:
       doRelease:
         description: 'Publish new release'
         type: boolean
-        default: false
+        default: true
         required: false
-  schedule:
-    - cron: '0 12 * * *'
 
 env:
   DOCKER_BUILDKIT: 1
