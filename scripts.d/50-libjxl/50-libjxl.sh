@@ -1,7 +1,7 @@
 #!/bin/bash
 
 JXL_REPO="https://github.com/libjxl/libjxl.git"
-JXL_COMMIT="5e7ed06a80961f7bea8c401f5163a6826bfb9ce3"
+JXL_COMMIT="9c1e1c1446982bddf6987a6236f0731e826570ad"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
@@ -21,11 +21,8 @@ ffbuild_dockerbuild() {
         export CXXFLAGS="$CXXFLAGS -DVQSORT_GETRANDOM=0 -DVQSORT_SECURE_SEED=0"
     fi
 
-    export CXXFLAGS="$CXXFLAGS -DHWY_COMPILE_ONLY_SCALAR"
-    export CFLAGS="$CFLAGS -DHWY_COMPILE_ONLY_SCALAR"
-
-    #export CXXFLAGS="$CXXFLAGS -mno-avx2"
-    #export CFLAGS="$CFLAGS -mno-avx2"
+    export CXXFLAGS="$CXXFLAGS -Wa,-muse-unaligned-vector-move"
+    export CFLAGS="$CFLAGS -Wa,-muse-unaligned-vector-move"
 
     cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
         -DBUILD_SHARED_LIBS=OFF -DJPEGXL_STATIC=OFF -DJPEGXL_ENABLE_TOOLS=OFF -DJPEGXL_ENABLE_VIEWERS=OFF -DJPEGXL_EMSCRIPTEN=OFF -DJPEGXL_ENABLE_DOXYGEN=OFF \
