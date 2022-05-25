@@ -151,7 +151,6 @@ jobs:
           path: artifacts/*
   publish_release:
     name: Publish release
-    if: ${{ github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' }}
     needs: build_ffmpeg
     runs-on: self-hosted
     steps:
